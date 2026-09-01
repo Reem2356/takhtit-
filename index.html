@@ -521,6 +521,74 @@
   }
   .booking-success.show{display:block;}
 
+  /* ---------- بطاقة الانتقال لبرامج الجهة ---------- */
+  .programs-banner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    background:linear-gradient(135deg,var(--navy-950) 0%,var(--navy-900) 60%,var(--navy-800) 100%);
+    border-radius:20px;
+    padding:34px 36px;
+    text-decoration:none;
+    color:var(--white);
+    position:relative;
+    overflow:hidden;
+    flex-wrap:wrap;
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .programs-banner::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:radial-gradient(circle at 85% 20%, rgba(201,162,75,.22), transparent 45%);
+    pointer-events:none;
+  }
+  .programs-banner:hover{
+    transform:translateY(-4px);
+    box-shadow:0 24px 50px -20px rgba(10,34,49,.5);
+  }
+  .programs-banner-right{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    position:relative;
+    z-index:1;
+  }
+  .programs-banner .pb-icon{
+    width:64px;height:64px;
+    border-radius:16px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(226,197,129,.4);
+    color:var(--gold-300);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.8rem;
+    flex-shrink:0;
+  }
+  .programs-banner .pb-icon svg{width:55%;height:55%;}
+  .programs-banner-text h3{
+    margin:0 0 6px;
+    font-size:1.3rem;
+    color:var(--white);
+  }
+  .programs-banner-text p{
+    margin:0;
+    color:#cfd8de;
+    font-size:.95rem;
+  }
+  .programs-banner .pb-arrow{
+    width:44px;height:44px;
+    border-radius:50%;
+    background:var(--gold-500);
+    color:var(--navy-950);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    position:relative;
+    z-index:1;
+    transition:transform .3s ease;
+  }
+  .programs-banner .pb-arrow svg{width:55%;height:55%;}
+  .programs-banner:hover .pb-arrow{transform:translateX(-6px);}
+
   /* ---------- الفوتر ---------- */
   footer{
     background:var(--navy-950);
@@ -725,6 +793,23 @@
   </div>
 </section>
 
+<section id="s-programs" class="reveal">
+  <div class="section-head">
+    <div class="section-num" data-icon="layers"></div>
+    <h2 class="section-title">البرامج المقدمة للجهة<small>مجموعة برامج نوعية تدعم التخطيط والأداء المؤسسي — اضغط للاطلاع على التفاصيل</small></h2>
+  </div>
+  <a class="programs-banner" href="programs.html">
+    <div class="programs-banner-right">
+      <div class="pb-icon" data-icon="layers"></div>
+      <div class="programs-banner-text">
+        <h3>استعرض البرامج المقترحة</h3>
+        <p>ست برامج متخصصة في التخطيط الاستراتيجي والتشغيلي وإدارة المشاريع والأداء</p>
+      </div>
+    </div>
+    <div class="pb-arrow" data-icon="arrowLeft"></div>
+  </a>
+</section>
+
 <section id="s-booking" class="reveal">
   <div class="section-head">
     <div class="section-num" data-icon="calendar"></div>
@@ -808,7 +893,9 @@
     trending: `<path d="M3.5 17 10 10.5l4 4 6.5-7.5"/><path d="M15.5 6.5h5v5"/>`,
     dollar: `<circle cx="12" cy="12" r="8.5"/><path d="M12 6.8v10.4M15 9.3c0-1.2-1.3-2-3-2s-3 .9-3 2.1c0 1.1.9 1.7 3 2.1 2.1.4 3 1 3 2.1 0 1.2-1.3 2.1-3 2.1s-3-.8-3-2"/>`,
     signal: `<path d="M4 20V13M9.5 20V9M15 20V5M20.5 20v-8"/>`,
-    calendar: `<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/><circle cx="8" cy="13.2" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="13.2" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="13.2" r="1" fill="currentColor" stroke="none"/>`
+    calendar: `<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/><circle cx="8" cy="13.2" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="13.2" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="13.2" r="1" fill="currentColor" stroke="none"/>`,
+    layers: `<path d="M12 3.5 3 8l9 4.5 9-4.5-9-4.5Z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 16l9 4.5 9-4.5"/>`,
+    arrowLeft: `<path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/>`
   };
   function ICON(name){
     const body = ICONS[name] || ICONS.target;
@@ -934,6 +1021,7 @@
     {id:'s-success', label:'عناصر النجاح'},
     {id:'s-tools', label:'الأدوات'},
     {id:'s-value', label:'القيمة'},
+    {id:'s-programs', label:'البرامج'},
     {id:'s-booking', label:'الحجز والتواصل'},
   ];
   const dotnav = document.getElementById('dotnav');
