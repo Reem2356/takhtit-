@@ -589,6 +589,110 @@
   .programs-banner .pb-arrow svg{width:55%;height:55%;}
   .programs-banner:hover .pb-arrow{transform:translateX(-6px);}
 
+  /* ---------- صفحة تفاصيل البرامج ---------- */
+  .back-link{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:var(--gold-300);
+    text-decoration:none;
+    font-weight:700;
+    font-size:.92rem;
+    border:1px solid rgba(226,197,129,.4);
+    border-radius:10px;
+    padding:8px 16px;
+    margin-bottom:22px;
+    transition:all .25s ease;
+  }
+  .back-link:hover{background:rgba(255,255,255,.08); border-color:var(--gold-500);}
+  .back-link svg{width:16px;height:16px;}
+  #programsView section{padding:56px 6vw 78px;}
+  .programs-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:22px;
+  }
+  .program-card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:30px 28px;
+    transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+  }
+  .program-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 20px 40px -22px rgba(14,46,66,.35);
+    border-color:var(--gold-500);
+  }
+  .program-top{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:16px;
+  }
+  .program-icon{
+    width:52px;height:52px;border-radius:14px;
+    background:var(--navy-950);
+    color:var(--gold-300);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .program-icon svg{width:55%;height:55%;}
+  .program-num{
+    font-family:'Cairo',sans-serif;
+    font-weight:900;
+    color:var(--gold-500);
+    font-size:.85rem;
+  }
+  .program-card h3{margin:0; font-size:1.15rem; color:var(--navy-950);}
+  .program-card p.desc{margin:0 0 16px; color:var(--ink-soft); font-size:.96rem;}
+  .program-points{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px;}
+  .program-points li{display:flex; align-items:flex-start; gap:10px; font-size:.92rem; color:var(--ink);}
+  .program-points li::before{
+    content:"";
+    width:7px;height:7px;
+    border-radius:50%;
+    background:var(--gold-500);
+    margin-top:8px;
+    flex-shrink:0;
+  }
+  .cta-band{
+    margin-top:44px;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:30px 32px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .cta-band h4{margin:0 0 6px; font-size:1.1rem; color:var(--navy-950);}
+  .cta-band p{margin:0; color:var(--ink-soft); font-size:.92rem;}
+  .cta-btn{
+    background:var(--navy-950);
+    color:var(--gold-300);
+    text-decoration:none;
+    border-radius:12px;
+    padding:13px 28px;
+    font-family:'Cairo',sans-serif;
+    font-weight:800;
+    font-size:.95rem;
+    transition:all .3s ease;
+    white-space:nowrap;
+    display:inline-block;
+    cursor:pointer;
+  }
+  .cta-btn:hover{background:var(--gold-500); color:var(--navy-950);}
+  .programs-footer{
+    background:var(--navy-950);
+    color:#cfd8de;
+    text-align:center;
+    padding:26px 6vw;
+    font-size:.82rem;
+  }
+
   /* ---------- الفوتر ---------- */
   footer{
     background:var(--navy-950);
@@ -640,6 +744,8 @@
 </style>
 </head>
 <body>
+
+<div id="mainView">
 
 <nav class="dotnav" id="dotnav"></nav>
 
@@ -798,7 +904,7 @@
     <div class="section-num" data-icon="layers"></div>
     <h2 class="section-title">البرامج المقدمة للجهة<small>مجموعة برامج نوعية تدعم التخطيط والأداء المؤسسي — اضغط للاطلاع على التفاصيل</small></h2>
   </div>
-  <a class="programs-banner" href="programs.html">
+  <a class="programs-banner" href="#s-programs" id="openProgramsBtn">
     <div class="programs-banner-right">
       <div class="pb-icon" data-icon="layers"></div>
       <div class="programs-banner-text">
@@ -866,6 +972,36 @@
   <div class="foot-bottom">التخطيط التشغيلي — تطبيقه وتنفيذه وقياسه</div>
 </footer>
 
+</div>
+
+<div id="programsView" style="display:none;">
+  <header class="hero">
+    <div class="hero-inner" style="max-width:1280px;margin:0 auto;display:block;">
+      <a class="back-link" href="#s-programs" id="backToMainBtn">
+        <span data-icon="arrowRight"></span>
+        العودة للصفحة الرئيسية
+      </a>
+      <div class="eyebrow">برامجنا التطويرية</div>
+      <h1 class="big">البرامج المقدمة <span>للجهات</span></h1>
+      <div class="hero-sub">مجموعة برامج نوعية مصممة لدعم الجهات في بناء قدراتها المؤسسية في التخطيط الاستراتيجي والتشغيلي، وإدارة المشاريع والأداء، وصولاً إلى أثر مستدام وقابل للقياس.</div>
+    </div>
+  </header>
+
+  <section>
+    <div class="programs-grid" id="programsGrid"></div>
+
+    <div class="cta-band">
+      <div>
+        <h4>هل ترغب بالبدء في أحد هذه البرامج؟</h4>
+        <p>يمكنك حجز موعد للتواصل معنا ومناقشة احتياج جهتكم.</p>
+      </div>
+      <a class="cta-btn" href="#s-booking" id="goToBookingBtn">احجز موعد الآن</a>
+    </div>
+  </section>
+
+  <footer class="programs-footer">البرامج المقدمة للجهة — التخطيط التشغيلي وتطبيقه وتنفيذه وقياسه</footer>
+</div>
+
 <script>
   // ---------- مكتبة الأيقونات (خط بسيط، بنفس روح الأيقونات في الصورة الأصلية) ----------
   const ICONS = {
@@ -895,7 +1031,9 @@
     signal: `<path d="M4 20V13M9.5 20V9M15 20V5M20.5 20v-8"/>`,
     calendar: `<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/><circle cx="8" cy="13.2" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="13.2" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="13.2" r="1" fill="currentColor" stroke="none"/>`,
     layers: `<path d="M12 3.5 3 8l9 4.5 9-4.5-9-4.5Z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 16l9 4.5 9-4.5"/>`,
-    arrowLeft: `<path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/>`
+    arrowLeft: `<path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/>`,
+    arrowRight: `<path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>`,
+    cpu: `<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/>`
   };
   function ICON(name){
     const body = ICONS[name] || ICONS.target;
@@ -1042,6 +1180,112 @@
     });
   }, {threshold:.5});
   sectionsForNav.forEach(s=> navIO.observe(document.getElementById(s.id)));
+
+  // ---------- بيانات البرامج المقدمة للجهة ----------
+  const programs = [
+    {
+      icon:"clipboard",
+      title:"برنامج التخطيط الاستراتيجي والتشغيلي",
+      desc:"يمكّن الجهة من صياغة استراتيجيتها وترجمتها إلى خطط تشغيلية واضحة ومبادرات ذات أولوية قابلة للتنفيذ والقياس.",
+      points:["تحليل الوضع الراهن وصياغة التوجهات الاستراتيجية","بناء خطط تشغيلية مرتبطة بالأهداف","تحديد مؤشرات أداء ومستهدفات واضحة"]
+    },
+    {
+      icon:"briefcase",
+      title:"برنامج تأسيس وتفعيل مكاتب إدارة المشاريع (PMO)",
+      desc:"يدعم الجهة في إنشاء أو تطوير مكتب إدارة المشاريع وتفعيل أدواره وفق منهجيات عالمية معتمدة مثل PMBOK.",
+      points:["تصميم هيكل ودليل عمل مكتب إدارة المشاريع","توحيد منهجيات وأدوات إدارة المشاريع","بناء آلية حوكمة ومتابعة للمشاريع"]
+    },
+    {
+      icon:"chart",
+      title:"برنامج قياس الأداء المؤسسي ولوحات المتابعة",
+      desc:"يهدف إلى تصميم منظومة مؤشرات أداء مرتبطة بالأهداف الاستراتيجية، مع لوحات متابعة تدعم اتخاذ القرار.",
+      points:["بناء بطاقة أداء متوازن للجهة","تصميم لوحات متابعة تفاعلية","آلية دورية لمراجعة وتحليل النتائج"]
+    },
+    {
+      icon:"shield",
+      title:"برنامج إدارة المخاطر المؤسسية",
+      desc:"يبني قدرة الجهة على تحديد وتقييم ومعالجة المخاطر الاستراتيجية والتشغيلية بشكل استباقي.",
+      points:["حصر وتصنيف المخاطر المؤسسية","بناء سجل مخاطر وخطط استجابة","تدريب فرق العمل على إدارة المخاطر"]
+    },
+    {
+      icon:"users",
+      title:"برنامج تنمية القدرات في التخطيط وإدارة المشاريع",
+      desc:"دورات وورش عمل متخصصة لرفع كفاءة الكوادر الداخلية في أدوات ومنهجيات التخطيط وإدارة المشاريع والأداء.",
+      points:["ورش تدريبية عملية وتطبيقية","تأهيل فرق عمل داخلية متخصصة","نقل معرفي وخبرات تراكمية للجهة"]
+    },
+    {
+      icon:"cpu",
+      title:"برنامج التحول الرقمي وتوظيف الذكاء الاصطناعي في التخطيط والأداء",
+      desc:"يدعم الجهة في استخدام أدوات الذكاء الاصطناعي والتقنيات الحديثة لتحسين تحليل البيانات واتخاذ القرار.",
+      points:["أتمتة إعداد التقارير ولوحات المتابعة","تحليل بيانات متقدم لدعم القرار","بناء حلول ذكية مخصصة لاحتياج الجهة"]
+    }
+  ];
+
+  const programsGrid = document.getElementById('programsGrid');
+  if(programsGrid){
+    programs.forEach((p, i)=>{
+      const card = document.createElement('div');
+      card.className = 'program-card';
+      card.innerHTML = `
+        <div class="program-top">
+          <div class="program-icon">${ICON(p.icon)}</div>
+          <div>
+            <div class="program-num">برنامج ${String(i+1).padStart(2,'0')}</div>
+            <h3>${p.title}</h3>
+          </div>
+        </div>
+        <p class="desc">${p.desc}</p>
+        <ul class="program-points">${p.points.map(pt=>`<li>${pt}</li>`).join('')}</ul>
+      `;
+      programsGrid.appendChild(card);
+    });
+  }
+
+  // ---------- التبديل بين الصفحة الرئيسية وصفحة البرامج ----------
+  const mainView = document.getElementById('mainView');
+  const programsView = document.getElementById('programsView');
+  const openProgramsBtn = document.getElementById('openProgramsBtn');
+  const backToMainBtn = document.getElementById('backToMainBtn');
+  const goToBookingBtn = document.getElementById('goToBookingBtn');
+
+  // أيقونة زر العودة (تُرسم يدوياً لأنها خارج نظام data-icon الأساسي وقت التحميل)
+  const backIconHost = backToMainBtn ? backToMainBtn.querySelector('[data-icon="arrowRight"]') : null;
+  if(backIconHost) backIconHost.innerHTML = ICON('arrowRight');
+
+  function showProgramsView(){
+    mainView.style.display = 'none';
+    programsView.style.display = 'block';
+    window.scrollTo({top:0, behavior:'instant' in window ? 'instant' : 'auto'});
+  }
+  function showMainView(scrollToId){
+    programsView.style.display = 'none';
+    mainView.style.display = 'block';
+    if(scrollToId){
+      const target = document.getElementById(scrollToId);
+      if(target) target.scrollIntoView({behavior:'smooth'});
+    } else {
+      window.scrollTo({top:0, behavior:'instant' in window ? 'instant' : 'auto'});
+    }
+  }
+
+  if(openProgramsBtn){
+    openProgramsBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      showProgramsView();
+    });
+  }
+  if(backToMainBtn){
+    backToMainBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      showMainView('s-programs');
+    });
+  }
+  if(goToBookingBtn){
+    goToBookingBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      showMainView('s-booking');
+    });
+  }
 
   // ---------- نموذج الحجز والتواصل ----------
   const bookingForm = document.getElementById('bookingForm');
