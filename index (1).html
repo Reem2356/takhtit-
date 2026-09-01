@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>التخطيط التشغيلي وتطبيقه وتنفيذه وقياسه</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#0a2231;
+    --navy-900:#0e2e42;
+    --navy-800:#153c54;
+    --gold-500:#c9a24b;
+    --gold-300:#e2c581;
+    --paper:#f6f3ea;
+    --paper-2:#eee9db;
+    --ink:#1c2a33;
+    --ink-soft:#4c5c66;
+    --line:#dcd4bd;
+    --white:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Tajawal',sans-serif;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4, .display{font-family:'Cairo',sans-serif;}
+  a{color:inherit;}
+
+  ::selection{background:var(--gold-300);color:var(--navy-950);}
+
+  /* ---------- side nav dots ---------- */
+  .dotnav{
+    position:fixed;
+    top:50%;
+    left:22px;
+    transform:translateY(-50%);
+    z-index:60;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .dotnav button{
+    width:11px;height:11px;border-radius:50%;
+    border:2px solid var(--navy-800);
+    background:transparent;
+    cursor:pointer;
+    padding:0;
+    transition:all .3s ease;
+  }
+  .dotnav button.active{background:var(--gold-500);border-color:var(--gold-500);transform:scale(1.3);}
+  @media (max-width:900px){.dotnav{display:none;}}
+
+  /* ---------- hero ---------- */
+  header.hero{
+    position:relative;
+    background:linear-gradient(135deg,var(--navy-950) 0%,var(--navy-900) 55%,var(--navy-800) 100%);
+    color:var(--white);
+    overflow:hidden;
+    padding:64px 6vw 54px;
+  }
+  header.hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      radial-gradient(circle at 12% 20%, rgba(201,162,75,.18), transparent 40%),
+      radial-gradient(circle at 92% 80%, rgba(201,162,75,.14), transparent 45%);
+    pointer-events:none;
+  }
+  .hero-inner{
+    position:relative;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:32px;
+    flex-wrap:wrap;
+  }
+  .hero-badge{
+    border:1px solid var(--gold-500);
+    border-radius:16px;
+    padding:16px 22px;
+    text-align:center;
+    font-size:.95rem;
+    font-weight:700;
+    color:var(--gold-300);
+    background:rgba(255,255,255,.03);
+    min-width:190px;
+  }
+  .hero-badge div{padding:3px 0;}
+  .hero-title{
+    max-width:760px;
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:var(--gold-300);
+    font-weight:700;
+    letter-spacing:.5px;
+    font-size:.85rem;
+    margin-bottom:14px;
+  }
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--gold-500);display:inline-block;}
+  h1.big{
+    font-size:clamp(2.1rem,5vw,3.6rem);
+    font-weight:900;
+    margin:0;
+    line-height:1.25;
+  }
+  h1.big span{color:var(--gold-300);}
+  .hero-sub{
+    margin-top:26px;
+    display:inline-block;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(226,197,129,.4);
+    border-radius:10px;
+    padding:12px 20px;
+    font-size:1.05rem;
+    font-weight:500;
+    color:#f1e9d3;
+  }
+
+  /* ---------- generic section ---------- */
+  section{
+    padding:68px 6vw;
+    max-width:1280px;
+    margin:0 auto;
+    scroll-margin-top:30px;
+  }
+  .section-head{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:38px;
+  }
+  .section-num{
+    font-family:'Cairo',sans-serif;
+    font-weight:900;
+    font-size:1.1rem;
+    color:var(--white);
+    background:var(--navy-900);
+    width:40px;height:40px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .section-title{
+    font-size:clamp(1.4rem,2.6vw,2rem);
+    font-weight:800;
+    margin:0;
+    color:var(--navy-950);
+  }
+  .section-title small{
+    display:block;
+    font-family:'Tajawal',sans-serif;
+    font-weight:400;
+    font-size:.9rem;
+    color:var(--ink-soft);
+    margin-top:4px;
+  }
+
+  /* ---------- مهمة / رؤية ---------- */
+  .mv-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+  }
+  @media (max-width:760px){.mv-grid{grid-template-columns:1fr;}}
+  .mv-card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:34px 30px;
+    position:relative;
+    cursor:pointer;
+    transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease, border-color .4s ease, background .4s ease;
+  }
+  .mv-card:hover{transform:translateY(-4px);box-shadow:0 18px 40px -22px rgba(14,46,66,.35);}
+  .mv-card.expanded{
+    transform:translateY(-8px) scale(1.03);
+    box-shadow:0 30px 60px -20px rgba(10,34,49,.45);
+    border-color:var(--gold-500);
+    background:linear-gradient(180deg,var(--white),var(--paper-2));
+    z-index:5;
+  }
+  .mv-card.expanded .mv-icon{
+    background:var(--gold-500);
+    color:var(--navy-950);
+    transform:scale(1.08);
+  }
+  .mv-card.expanded h3{color:var(--navy-950);}
+  .mv-card.expanded h3::after{
+    content:"";
+    display:block;
+    width:46px;height:3px;
+    background:var(--gold-500);
+    margin-top:10px;
+    border-radius:3px;
+  }
+  .mv-card.expanded p{color:var(--ink);font-size:1.05rem;}
+  .mv-icon{
+    width:52px;height:52px;border-radius:14px;
+    background:var(--navy-950);
+    color:var(--gold-300);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.4rem;
+    margin-bottom:18px;
+    transition:all .4s ease;
+  }
+  .mv-card h3{margin:0 0 12px;font-size:1.25rem;color:var(--navy-950);}
+  .mv-card p{margin:0;color:var(--ink-soft);font-size:1rem;}
+
+  /* ---------- الأهداف الاستراتيجية ---------- */
+  .goals-wrap{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:36px;
+  }
+  .goals-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px 34px;
+  }
+  @media (max-width:760px){.goals-grid{grid-template-columns:1fr;}}
+  .goal-item{
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+    padding:14px 10px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:background .25s ease;
+    border:1px solid transparent;
+  }
+  .goal-item:hover{background:var(--paper-2);border-color:var(--line);}
+  .goal-num{
+    flex-shrink:0;
+    width:34px;height:34px;
+    border-radius:8px;
+    background:var(--navy-950);
+    color:var(--gold-300);
+    font-family:'Cairo',sans-serif;
+    font-weight:800;
+    font-size:.85rem;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .goal-item p{margin:0;font-size:.98rem;color:var(--ink);padding-top:4px;}
+
+  /* ---------- منهجية العمل: stepper ---------- */
+  .stepper-nav{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding-bottom:14px;
+    margin-bottom:8px;
+  }
+  .step-btn{
+    flex:1 1 0;
+    min-width:150px;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px 14px;
+    text-align:center;
+    cursor:pointer;
+    transition:all .3s ease;
+    position:relative;
+  }
+  .step-btn .sn{
+    display:inline-flex;
+    align-items:center;justify-content:center;
+    width:34px;height:34px;
+    border-radius:50%;
+    background:var(--paper-2);
+    color:var(--navy-900);
+    font-family:'Cairo',sans-serif;
+    font-weight:800;
+    margin-bottom:8px;
+    transition:all .3s ease;
+  }
+  .step-btn .st{
+    display:block;
+    font-weight:700;
+    font-size:.92rem;
+    color:var(--navy-950);
+  }
+  .step-btn.active{
+    background:var(--navy-950);
+    border-color:var(--navy-950);
+  }
+  .step-btn.active .sn{background:var(--gold-500);color:var(--navy-950);}
+  .step-btn.active .st{color:var(--white);}
+
+  .step-panel{
+    display:none;
+    background:linear-gradient(180deg,var(--white),var(--paper-2));
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:32px;
+    animation:fadeIn .4s ease;
+  }
+  .step-panel.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  .step-panel h4{
+    margin:0 0 18px;
+    font-size:1.3rem;
+    color:var(--navy-950);
+    display:flex;align-items:center;gap:10px;
+  }
+  .step-panel h4 .big-n{
+    font-family:'Cairo',sans-serif;font-weight:900;
+    color:var(--gold-500);font-size:1.6rem;
+  }
+  .step-panel ul{
+    margin:0;
+    padding:0;
+    list-style:none;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px 24px;
+  }
+  @media (max-width:700px){.step-panel ul{grid-template-columns:1fr;}}
+  .step-panel li{
+    display:flex;align-items:flex-start;gap:10px;
+    font-size:.98rem;color:var(--ink);
+    padding:6px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .step-panel li::before{
+    content:"";
+    width:7px;height:7px;
+    border-radius:50%;
+    background:var(--gold-500);
+    margin-top:9px;
+    flex-shrink:0;
+  }
+
+  /* ---------- فريق العمل ---------- */
+  .team-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:20px;
+  }
+  .team-card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:18px;
+    overflow:hidden;
+    transition:transform .3s ease;
+  }
+  .team-card:hover{transform:translateY(-4px);}
+  .team-photo{
+    height:170px;
+    background:linear-gradient(160deg,var(--navy-900),var(--navy-950));
+    display:flex;align-items:center;justify-content:center;
+    color:var(--gold-300);
+    font-size:2.6rem;
+    font-family:'Cairo',sans-serif;
+    font-weight:800;
+  }
+  .team-info{padding:20px 22px;}
+  .team-info h4{margin:0 0 4px;font-size:1.15rem;color:var(--navy-950);}
+  .team-role{color:var(--gold-500);font-weight:700;font-size:.9rem;margin-bottom:10px;}
+  .team-info p{margin:0;color:var(--ink-soft);font-size:.92rem;}
+  .team-add{
+    display:flex;align-items:center;justify-content:center;
+    border:1.5px dashed var(--line);
+    border-radius:18px;
+    min-height:210px;
+    color:var(--ink-soft);
+    font-weight:700;
+    cursor:pointer;
+    transition:all .25s ease;
+    flex-direction:column;
+    gap:10px;
+  }
+  .team-add:hover{border-color:var(--gold-500);color:var(--navy-950);background:var(--paper-2);}
+  .team-add .plus{
+    width:44px;height:44px;border-radius:50%;
+    background:var(--navy-950);color:var(--gold-300);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.4rem;
+  }
+
+  /* ---------- شبكات الأيقونات (نجاح / أدوات / قيمة) ---------- */
+  .icon-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:16px;
+  }
+  .icon-card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:24px 16px;
+    text-align:center;
+    transition:all .3s ease;
+    cursor:default;
+  }
+  .icon-card:hover{
+    background:var(--navy-950);
+    transform:translateY(-3px);
+    box-shadow:0 16px 30px -18px rgba(14,46,66,.4);
+  }
+  .icon-card:hover p{color:var(--white);}
+  .icon-card:hover .ic{background:var(--gold-500);color:var(--navy-950);}
+  .icon-card .ic{
+    width:50px;height:50px;
+    border-radius:14px;
+    background:var(--paper-2);
+    color:var(--navy-950);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.35rem;
+    margin:0 auto 14px;
+    transition:all .3s ease;
+  }
+  .icon-card p{margin:0;font-size:.92rem;font-weight:600;color:var(--ink);transition:color .3s ease;}
+
+  .band-title{
+    text-align:center;
+    font-size:1.05rem;
+    font-weight:800;
+    color:var(--navy-950);
+    margin:0 0 24px;
+    display:flex;align-items:center;justify-content:center;gap:10px;
+  }
+  .band-title .em{font-size:1.3rem;}
+
+  /* ---------- الحجز والتواصل ---------- */
+  .booking-card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:36px;
+  }
+  .booking-form{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    align-items:end;
+  }
+  @media (max-width:900px){.booking-form{grid-template-columns:1fr 1fr;}}
+  @media (max-width:560px){.booking-form{grid-template-columns:1fr;}}
+  .form-field{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .form-field label{
+    font-size:.88rem;
+    font-weight:700;
+    color:var(--navy-950);
+  }
+  .form-field select,
+  .form-field input{
+    font-family:'Tajawal',sans-serif;
+    font-size:.95rem;
+    color:var(--ink);
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+    outline:none;
+    text-align:right;
+    transition:border-color .25s ease, box-shadow .25s ease;
+    -webkit-appearance:none;
+    appearance:none;
+  }
+  .form-field select{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234c5c66' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:left 12px center;
+    background-size:16px;
+    padding-left:34px;
+    cursor:pointer;
+  }
+  .form-field select:focus,
+  .form-field input:focus{
+    border-color:var(--gold-500);
+    box-shadow:0 0 0 3px rgba(201,162,75,.18);
+  }
+  .form-field input[type="date"]{
+    cursor:pointer;
+  }
+  .booking-btn{
+    grid-column:1 / -1;
+    justify-self:start;
+    background:var(--navy-950);
+    color:var(--gold-300);
+    border:none;
+    border-radius:12px;
+    padding:14px 34px;
+    font-family:'Cairo',sans-serif;
+    font-weight:800;
+    font-size:1rem;
+    cursor:pointer;
+    transition:all .3s ease;
+    margin-top:6px;
+  }
+  .booking-btn:hover{
+    background:var(--gold-500);
+    color:var(--navy-950);
+    transform:translateY(-2px);
+    box-shadow:0 14px 28px -14px rgba(14,46,66,.4);
+  }
+  .booking-success{
+    grid-column:1 / -1;
+    margin-top:4px;
+    font-size:.92rem;
+    font-weight:700;
+    color:#4a7c4e;
+    display:none;
+  }
+  .booking-success.show{display:block;}
+
+  /* ---------- بطاقة الانتقال لبرامج الجهة ---------- */
+  .programs-banner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    background:linear-gradient(135deg,var(--navy-950) 0%,var(--navy-900) 60%,var(--navy-800) 100%);
+    border-radius:20px;
+    padding:34px 36px;
+    text-decoration:none;
+    color:var(--white);
+    position:relative;
+    overflow:hidden;
+    flex-wrap:wrap;
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .programs-banner::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:radial-gradient(circle at 85% 20%, rgba(201,162,75,.22), transparent 45%);
+    pointer-events:none;
+  }
+  .programs-banner:hover{
+    transform:translateY(-4px);
+    box-shadow:0 24px 50px -20px rgba(10,34,49,.5);
+  }
+  .programs-banner-right{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    position:relative;
+    z-index:1;
+  }
+  .programs-banner .pb-icon{
+    width:64px;height:64px;
+    border-radius:16px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(226,197,129,.4);
+    color:var(--gold-300);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.8rem;
+    flex-shrink:0;
+  }
+  .programs-banner .pb-icon svg{width:55%;height:55%;}
+  .programs-banner-text h3{
+    margin:0 0 6px;
+    font-size:1.3rem;
+    color:var(--white);
+  }
+  .programs-banner-text p{
+    margin:0;
+    color:#cfd8de;
+    font-size:.95rem;
+  }
+  .programs-banner .pb-arrow{
+    width:44px;height:44px;
+    border-radius:50%;
+    background:var(--gold-500);
+    color:var(--navy-950);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    position:relative;
+    z-index:1;
+    transition:transform .3s ease;
+  }
+  .programs-banner .pb-arrow svg{width:55%;height:55%;}
+  .programs-banner:hover .pb-arrow{transform:translateX(-6px);}
+
+  /* ---------- صفحة تفاصيل البرامج ---------- */
+  .back-link{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:var(--gold-300);
+    text-decoration:none;
+    font-weight:700;
+    font-size:.92rem;
+    border:1px solid rgba(226,197,129,.4);
+    border-radius:10px;
+    padding:8px 16px;
+    margin-bottom:22px;
+    transition:all .25s ease;
+  }
+  .back-link:hover{background:rgba(255,255,255,.08); border-color:var(--gold-500);}
+  .back-link svg{width:16px;height:16px;}
+  #programsView section{padding:56px 6vw 78px;}
+  .programs-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:22px;
+  }
+  .program-card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:30px 28px;
+    transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+  }
+  .program-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 20px 40px -22px rgba(14,46,66,.35);
+    border-color:var(--gold-500);
+  }
+  .program-top{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:16px;
+  }
+  .program-icon{
+    width:52px;height:52px;border-radius:14px;
+    background:var(--navy-950);
+    color:var(--gold-300);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .program-icon svg{width:55%;height:55%;}
+  .program-num{
+    font-family:'Cairo',sans-serif;
+    font-weight:900;
+    color:var(--gold-500);
+    font-size:.85rem;
+  }
+  .program-card h3{margin:0; font-size:1.15rem; color:var(--navy-950);}
+  .program-card p.desc{margin:0 0 16px; color:var(--ink-soft); font-size:.96rem;}
+  .program-points{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px;}
+  .program-points li{display:flex; align-items:flex-start; gap:10px; font-size:.92rem; color:var(--ink);}
+  .program-points li::before{
+    content:"";
+    width:7px;height:7px;
+    border-radius:50%;
+    background:var(--gold-500);
+    margin-top:8px;
+    flex-shrink:0;
+  }
+  .cta-band{
+    margin-top:44px;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:30px 32px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .cta-band h4{margin:0 0 6px; font-size:1.1rem; color:var(--navy-950);}
+  .cta-band p{margin:0; color:var(--ink-soft); font-size:.92rem;}
+  .cta-btn{
+    background:var(--navy-950);
+    color:var(--gold-300);
+    text-decoration:none;
+    border-radius:12px;
+    padding:13px 28px;
+    font-family:'Cairo',sans-serif;
+    font-weight:800;
+    font-size:.95rem;
+    transition:all .3s ease;
+    white-space:nowrap;
+    display:inline-block;
+    cursor:pointer;
+  }
+  .cta-btn:hover{background:var(--gold-500); color:var(--navy-950);}
+  .programs-footer{
+    background:var(--navy-950);
+    color:#cfd8de;
+    text-align:center;
+    padding:26px 6vw;
+    font-size:.82rem;
+  }
+
+  /* ---------- الفوتر ---------- */
+  footer{
+    background:var(--navy-950);
+    color:var(--white);
+    padding:44px 6vw 34px;
+  }
+  .foot-grid{
+    max-width:1280px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:18px;
+  }
+  @media (max-width:960px){.foot-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:560px){.foot-grid{grid-template-columns:1fr;}}
+  .foot-item{
+    text-align:center;
+    padding:20px 12px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.08);
+  }
+  .foot-item.center{
+    background:rgba(201,162,75,.12);
+    border-color:var(--gold-500);
+  }
+  .foot-item .fi-title{font-weight:800;font-size:.95rem;color:var(--gold-300);}
+  .foot-item .fi-sub{font-size:.82rem;color:#cfd8de;margin-top:6px;}
+  .foot-bottom{
+    text-align:center;
+    margin-top:30px;
+    font-size:.8rem;
+    color:#8fa1ac;
+  }
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.show{opacity:1;transform:translateY(0);}
+
+  /* ---------- تنسيق أيقونات SVG داخل الشارات ---------- */
+  [data-icon] svg{width:60%;height:60%;display:block;}
+  .mv-icon svg, .section-num svg{width:55%;height:55%;}
+  .icon-card .ic svg{width:55%;height:55%;}
+  .step-btn .sn svg{width:60%;height:60%;color:inherit;}
+  .step-btn .sn{color:var(--navy-900);}
+  .step-btn.active .sn{color:var(--navy-950);}
+
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important; animation:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div id="mainView">
+
+<nav class="dotnav" id="dotnav"></nav>
+
+<header class="hero" id="s-hero">
+  <div class="hero-inner">
+    <div class="hero-title">
+      <div class="eyebrow">من التخطيط إلى الأثر</div>
+      <h1 class="big">التخطيط التشغيلي<br><span>وتطبيقه وتنفيذه وقياسه</span></h1>
+      <div class="hero-sub">من التخطيط إلى الأثر .. بخطوات منهجية ونتائج قابلة للقياس</div>
+    </div>
+    <div class="hero-badge">
+      <div>نخطط باحتراف</div>
+      <div>ننفذ بكفاءة</div>
+      <div>نقيس لتحسن</div>
+    </div>
+  </div>
+</header>
+
+<section id="s-mv" class="reveal">
+  <div class="mv-grid">
+    <div class="mv-card">
+      <div class="mv-icon" data-icon="envelope"></div>
+      <h3>الرسالة</h3>
+      <p>تمكين جهات المنطقة من تحقيق أهدافها الاستراتيجية من خلال تقديم خدمات احترافية في التخطيط الاستراتيجي والتشغيلي وإدارة المشاريع والأداء وفق منهجيات ومعايير مؤسسية تضمن جودة التنفيذ واستدامة الأثر.</p>
+    </div>
+    <div class="mv-card">
+      <div class="mv-icon" data-icon="eye"></div>
+      <h3>الرؤية</h3>
+      <p>أن نكون المكتب الرائد في المنطقة في بناء وتفعيل الاستراتيجيات وتحويل الطموحات إلى أثر ونتائج قابلة للقياس.</p>
+    </div>
+  </div>
+</section>
+
+<section id="s-goals" class="reveal">
+  <div class="section-head">
+    <div class="section-num" data-icon="target"></div>
+    <h2 class="section-title">الأهداف الاستراتيجية للمكتب<small>عشرة أهداف توجّه عمل المكتب — اضغط على أي هدف لتظليله</small></h2>
+  </div>
+  <div class="goals-wrap">
+    <div class="goals-grid">
+      <div>
+        <div class="goal-item"><div class="goal-num">01</div><p>رفع جودة التخطيط المؤسسي لدى الجهات في المنطقة.</p></div>
+        <div class="goal-item"><div class="goal-num">02</div><p>تحويل الاستراتيجيات إلى خطط تشغيلية ومبادرات بمناهج واضحة.</p></div>
+        <div class="goal-item"><div class="goal-num">03</div><p>رفع كفاءة إدارة المشاريع وضمان الالتزام بالنطاق والوقت والتكلفة والجودة.</p></div>
+        <div class="goal-item"><div class="goal-num">04</div><p>بناء أنظمة لقياس الأداء وربط المؤشرات بالأهداف الاستراتيجية.</p></div>
+        <div class="goal-item"><div class="goal-num">05</div><p>دعم الجهات في اتخاذ القرارات المبنية على البيانات.</p></div>
+      </div>
+      <div>
+        <div class="goal-item"><div class="goal-num">06</div><p>تطوير القدرات المؤسسية في التخطيط وإدارة المشاريع والأداء.</p></div>
+        <div class="goal-item"><div class="goal-num">07</div><p>توحيد منهجيات وأدوات إدارة المشاريع والتخطيط بما يتناسب مع طبيعة كل جهة.</p></div>
+        <div class="goal-item"><div class="goal-num">08</div><p>رفع نسبة تحقيق المستهدفات الاستراتيجية والتشغيلية للجهات المستفيدة.</p></div>
+        <div class="goal-item"><div class="goal-num">09</div><p>بناء قاعدة معرفية وخبرات تراكمية تخدم التنمية في المنطقة.</p></div>
+        <div class="goal-item"><div class="goal-num">10</div><p>أن يصبح المكتب مرجعاً استشارياً إقليمياً في PMO والاستراتيجية والأداء.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="s-method" class="reveal">
+  <div class="section-head">
+    <div class="section-num" data-icon="refresh"></div>
+    <h2 class="section-title">منهجية العمل<small>خمس مراحل متصلة — اضغط على أي مرحلة لعرض تفاصيلها</small></h2>
+  </div>
+
+  <div class="stepper-nav" id="stepperNav"></div>
+  <div id="stepperPanels"></div>
+</section>
+
+<section id="s-team" class="reveal">
+  <div class="section-head">
+    <div class="section-num" data-icon="users"></div>
+    <h2 class="section-title">أعضاء فريق العمل</h2>
+  </div>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-photo">ف و</div>
+      <div class="team-info">
+        <h4>فيصل بن سلامة الوقيد</h4>
+        <div class="team-role">مدير البرنامج</div>
+        <p>مسؤول عن التخطيط الاستراتيجي وإدارة المشاريع والأداء</p>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-photo">م م</div>
+      <div class="team-info">
+        <h4>مناهل بنت أسعد المعيقل</h4>
+        <div class="team-role">عضو الفريق</div>
+        <p>أخصائي في التخطيط المؤسسي وإدارة المشاريع والأداء</p>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-photo">ر خ</div>
+      <div class="team-info">
+        <h4>ريم بنت ناصر الخمسان</h4>
+        <div class="team-role">عضو الفريق</div>
+        <p>مختص بالذكاء الاصطناعي والتقنيات الحديثة</p>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-photo">إ ن</div>
+      <div class="team-info">
+        <h4>إبراهيم بن عبدالله النازل</h4>
+        <div class="team-role">عضو الفريق</div>
+        <p>مختص بالتخطيط التربوي</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="s-success" class="reveal">
+  <div class="section-head">
+    <div class="section-num" data-icon="trophy"></div>
+    <h2 class="section-title">عناصر النجاح</h2>
+  </div>
+  <div class="icon-grid">
+    <div class="icon-card"><div class="ic" data-icon="target"></div><p>أهداف واضحة ومحددة</p></div>
+    <div class="icon-card"><div class="ic" data-icon="clipboard"></div><p>منهجيات وأدوات معتمدة</p></div>
+    <div class="icon-card"><div class="ic" data-icon="users"></div><p>كفاءات مؤهلة ومتخصصة</p></div>
+    <div class="icon-card"><div class="ic" data-icon="database"></div><p>بيانات دقيقة وموثوقة</p></div>
+    <div class="icon-card"><div class="ic" data-icon="shield"></div><p>حوكمة ومتابعة فعالة</p></div>
+  </div>
+</section>
+
+<section id="s-tools" class="reveal">
+  <div class="section-head">
+    <div class="section-num" data-icon="toolbox"></div>
+    <h2 class="section-title">أدوات ومنهجيات معتمدة</h2>
+  </div>
+  <div class="icon-grid">
+    <div class="icon-card"><div class="ic" data-icon="scale"></div><p>بطاقة الأداء المتوازن</p></div>
+    <div class="icon-card"><div class="ic" data-icon="globe"></div><p>PESTLE تحليل البيئة</p></div>
+    <div class="icon-card"><div class="ic" data-icon="swot"></div><p>SWOT تحليل</p></div>
+    <div class="icon-card"><div class="ic" data-icon="shield"></div><p>إدارة المخاطر</p></div>
+    <div class="icon-card"><div class="ic" data-icon="briefcase"></div><p>منهجية إدارة المشاريع (PMBOK)</p></div>
+    <div class="icon-card"><div class="ic" data-icon="wbs"></div><p>هيكل تقسيم العمل (WBS)</p></div>
+  </div>
+</section>
+
+<section id="s-value" class="reveal">
+  <div class="section-head">
+    <div class="section-num" data-icon="gem"></div>
+    <h2 class="section-title">القيمة التي تقدمها</h2>
+  </div>
+  <div class="icon-grid">
+    <div class="icon-card"><div class="ic" data-icon="star"></div><p>تميز تشغيلي أعلى</p></div>
+    <div class="icon-card"><div class="ic" data-icon="trending"></div><p>استدامة النتائج والتحسين المستمر</p></div>
+    <div class="icon-card"><div class="ic" data-icon="chart"></div><p>قرارات مبنية على البيانات</p></div>
+    <div class="icon-card"><div class="ic" data-icon="dollar"></div><p>رفع كفاءة الإنفاق وإدارة الموارد</p></div>
+    <div class="icon-card"><div class="ic" data-icon="target"></div><p>تحقيق الأثر الاستراتيجي</p></div>
+    <div class="icon-card"><div class="ic" data-icon="signal"></div><p>تحسين الأداء المؤسسي</p></div>
+  </div>
+</section>
+
+<section id="s-programs" class="reveal">
+  <div class="section-head">
+    <div class="section-num" data-icon="layers"></div>
+    <h2 class="section-title">البرامج المقدمة للجهة<small>مجموعة برامج نوعية تدعم التخطيط والأداء المؤسسي — اضغط للاطلاع على التفاصيل</small></h2>
+  </div>
+  <a class="programs-banner" href="#s-programs" id="openProgramsBtn">
+    <div class="programs-banner-right">
+      <div class="pb-icon" data-icon="layers"></div>
+      <div class="programs-banner-text">
+        <h3>استعرض البرامج المقترحة</h3>
+        <p>ست برامج متخصصة في التخطيط الاستراتيجي والتشغيلي وإدارة المشاريع والأداء</p>
+      </div>
+    </div>
+    <div class="pb-arrow" data-icon="arrowLeft"></div>
+  </a>
+</section>
+
+<section id="s-booking" class="reveal">
+  <div class="section-head">
+    <div class="section-num" data-icon="calendar"></div>
+    <h2 class="section-title">الحجز والتواصل<small>عبّئ البيانات أدناه وسنتواصل معك لتأكيد الموعد</small></h2>
+  </div>
+  <div class="booking-card">
+    <form class="booking-form" id="bookingForm">
+      <div class="form-field">
+        <label for="entitySelect">اسم الجهة</label>
+        <select id="entitySelect" required>
+          <option value="" disabled selected>اختر الجهة</option>
+          <option value="edu">إدارة التعليم</option>
+          <option value="health">التجمع الصحي</option>
+          <option value="hrsd">الموارد البشرية والتنمية الاجتماعية</option>
+          <option value="chamber">الغرفة التجارية</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="daySelect">اليوم</label>
+        <select id="daySelect" required>
+          <option value="" disabled selected>اختر اليوم</option>
+          <option value="sun">الأحد</option>
+          <option value="mon">الاثنين</option>
+          <option value="tue">الثلاثاء</option>
+          <option value="wed">الأربعاء</option>
+          <option value="thu">الخميس</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="dateInput">التاريخ</label>
+        <input type="date" id="dateInput" required>
+      </div>
+      <div class="form-field">
+        <label for="emailInput">البريد الإلكتروني</label>
+        <input type="email" id="emailInput" placeholder="example@domain.com" required>
+      </div>
+      <button type="submit" class="booking-btn">حجز الموعد</button>
+      <div class="booking-success" id="bookingSuccess"></div>
+    </form>
+  </div>
+</section>
+
+<footer id="s-footer">
+  <div class="foot-grid">
+    <div class="foot-item"><div class="fi-title">شراكة فاعلة لتحقيق الأهداف</div></div>
+    <div class="foot-item"><div class="fi-title">فريق متخصص ذو خبرة عملية</div></div>
+    <div class="foot-item center">
+      <div class="fi-title">ممكنات النجاح</div>
+      <div class="fi-sub">سرية وموثوقية تامة بالتعامل مع البيانات</div>
+    </div>
+    <div class="foot-item"><div class="fi-title">تركيز على الأثر والنتائج القابلة للقياس</div></div>
+    <div class="foot-item"><div class="fi-title">منهجيات عالمية بما يناسب سياق كل جهة</div></div>
+  </div>
+  <div class="foot-bottom">التخطيط التشغيلي — تطبيقه وتنفيذه وقياسه</div>
+</footer>
+
+</div>
+
+<div id="programsView" style="display:none;">
+  <header class="hero">
+    <div class="hero-inner" style="max-width:1280px;margin:0 auto;display:block;">
+      <a class="back-link" href="#s-programs" id="backToMainBtn">
+        <span data-icon="arrowRight"></span>
+        العودة للصفحة الرئيسية
+      </a>
+      <div class="eyebrow">برامجنا التطويرية</div>
+      <h1 class="big">البرامج المقدمة <span>للجهات</span></h1>
+      <div class="hero-sub">مجموعة برامج نوعية مصممة لدعم الجهات في بناء قدراتها المؤسسية في التخطيط الاستراتيجي والتشغيلي، وإدارة المشاريع والأداء، وصولاً إلى أثر مستدام وقابل للقياس.</div>
+    </div>
+  </header>
+
+  <section>
+    <div class="programs-grid" id="programsGrid"></div>
+
+    <div class="cta-band">
+      <div>
+        <h4>هل ترغب بالبدء في أحد هذه البرامج؟</h4>
+        <p>يمكنك حجز موعد للتواصل معنا ومناقشة احتياج جهتكم.</p>
+      </div>
+      <a class="cta-btn" href="#s-booking" id="goToBookingBtn">احجز موعد الآن</a>
+    </div>
+  </section>
+
+  <footer class="programs-footer">البرامج المقدمة للجهة — التخطيط التشغيلي وتطبيقه وتنفيذه وقياسه</footer>
+</div>
+
+<script>
+  // ---------- مكتبة الأيقونات (خط بسيط، بنفس روح الأيقونات في الصورة الأصلية) ----------
+  const ICONS = {
+    envelope: `<path d="M3 6.5h18v11a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-11Z"/><path d="M3.5 6.8 12 13l8.5-6.2"/>`,
+    eye: `<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3"/>`,
+    target: `<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/>`,
+    handshake: `<path d="M2.5 12.5 7 8l3 2 3-2 4.5 4.5"/><path d="M8 12l2.5 2.5a1.6 1.6 0 0 0 2.3 0l.2-.2a1.6 1.6 0 0 0 0-2.3"/><path d="M17.5 8.5 21.5 12l-3 3"/><path d="M2.5 12.5 6 16"/>`,
+    puzzle: `<path d="M9 4.5h3.2a1.4 1.4 0 0 1 1.4 1.6c-.1.9.6 1.7 1.5 1.7s1.6-.8 1.5-1.7A1.4 1.4 0 0 1 18 4.5h1.5v4.7a1.4 1.4 0 0 1-1.6 1.4c-.9-.1-1.7.6-1.7 1.5s.8 1.6 1.7 1.5a1.4 1.4 0 0 1 1.6 1.4v4.5H15v-1.7c0-.9-.8-1.6-1.7-1.5-.8.1-1.4.9-1.3 1.7v1.5H8.5v-4.5a1.4 1.4 0 0 1 1.6-1.4c.9.1 1.7-.6 1.7-1.5s-.8-1.6-1.7-1.5A1.4 1.4 0 0 1 8.5 9.2V4.5Z"/>`,
+    refresh: `<path d="M20 11A8 8 0 1 0 18.6 15.5"/><path d="M20 5.5v5.5h-5.5"/>`,
+    clipboard: `<rect x="5.5" y="4.5" width="13" height="16" rx="1.8"/><rect x="9" y="3" width="6" height="3" rx="1"/><path d="M8.5 11h7M8.5 14.5h7M8.5 18h4.5"/>`,
+    gear: `<circle cx="12" cy="12" r="3"/><path d="M12 3.5v2.2M12 18.3v2.2M4.6 7.2l1.9 1.1M17.5 15.7l1.9 1.1M4.6 16.8l1.9-1.1M17.5 8.3l1.9-1.1M3.5 12h2.2M18.3 12h2.2"/>`,
+    chart: `<path d="M4 20V10M11 20V4M18 20v-7"/><path d="M3 20h18"/>`,
+    users: `<circle cx="8.5" cy="8" r="3"/><path d="M2.8 19c.7-3 3-4.8 5.7-4.8s5 1.8 5.7 4.8"/><circle cx="17" cy="8.5" r="2.3"/><path d="M15.3 14.6c2.1.2 4 1.8 4.6 4.4"/>`,
+    trophy: `<path d="M7 4.5h10v4.2a5 5 0 0 1-10 0V4.5Z"/><path d="M7 5.8H4.3A2.3 2.3 0 0 0 5 10.3l2.4 1M17 5.8h2.7A2.3 2.3 0 0 1 19 10.3l-2.4 1"/><path d="M12 13.7V16.5M8.6 20h6.8M10 16.5h4v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2Z"/>`,
+    database: `<ellipse cx="12" cy="6" rx="7.5" ry="2.7"/><path d="M4.5 6v6c0 1.5 3.4 2.7 7.5 2.7s7.5-1.2 7.5-2.7V6"/><path d="M4.5 12v6c0 1.5 3.4 2.7 7.5 2.7s7.5-1.2 7.5-2.7v-6"/>`,
+    shield: `<path d="M12 3.3 19.5 6v5.6c0 4.5-3.2 7.6-7.5 9.1-4.3-1.5-7.5-4.6-7.5-9.1V6L12 3.3Z"/><path d="m9 12 2.2 2.2L15.5 10"/>`,
+    toolbox: `<rect x="3" y="9.5" width="18" height="9.5" rx="1.6"/><path d="M8.5 9.5v-2A2 2 0 0 1 10.5 5.5h3A2 2 0 0 1 15.5 7.5v2"/><path d="M3 13.5h18M10.5 13v2.2M13.5 13v2.2"/>`,
+    scale: `<path d="M12 3.5v17M7 8l-4 8a4 4 0 0 0 8 0Z"/><path d="M17 8l-4 8a4 4 0 0 0 8 0Z"/><path d="M5 20.5h14M9 4.8h6"/>`,
+    globe: `<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.3 2.3 3.6 5.3 3.6 8.5s-1.3 6.2-3.6 8.5c-2.3-2.3-3.6-5.3-3.6-8.5S9.7 5.8 12 3.5Z"/>`,
+    swot: `<rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1"/><rect x="13" y="13" width="7.5" height="7.5" rx="1"/>`,
+    briefcase: `<rect x="3" y="7.5" width="18" height="12" rx="1.8"/><path d="M8.5 7.5V6A2 2 0 0 1 10.5 4h3A2 2 0 0 1 15.5 6v1.5"/><path d="M3 12.5h18M10.5 12v2M13.5 12v2"/>`,
+    wbs: `<rect x="9.5" y="3" width="5" height="4.2" rx="1"/><rect x="3" y="16.8" width="5" height="4.2" rx="1"/><rect x="9.5" y="16.8" width="5" height="4.2" rx="1"/><rect x="16" y="16.8" width="5" height="4.2" rx="1"/><path d="M12 7.2v4M5.5 16.8v-3.3h13v3.3M12 13.5v3.3"/>`,
+    gem: `<path d="M4 9.2 8 4h8l4 5.2L12 20.5 4 9.2Z"/><path d="M4 9.2h16M9.3 4l-1.8 5.2 4.5 11.3M14.7 4l1.8 5.2-4.5 11.3"/>`,
+    star: `<path d="M12 3.5 14.6 9l6 .9-4.4 4.2 1 6-5.2-2.8L6.8 20.1l1-6-4.4-4.2 6-.9L12 3.5Z"/>`,
+    trending: `<path d="M3.5 17 10 10.5l4 4 6.5-7.5"/><path d="M15.5 6.5h5v5"/>`,
+    dollar: `<circle cx="12" cy="12" r="8.5"/><path d="M12 6.8v10.4M15 9.3c0-1.2-1.3-2-3-2s-3 .9-3 2.1c0 1.1.9 1.7 3 2.1 2.1.4 3 1 3 2.1 0 1.2-1.3 2.1-3 2.1s-3-.8-3-2"/>`,
+    signal: `<path d="M4 20V13M9.5 20V9M15 20V5M20.5 20v-8"/>`,
+    calendar: `<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/><circle cx="8" cy="13.2" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="13.2" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="13.2" r="1" fill="currentColor" stroke="none"/>`,
+    layers: `<path d="M12 3.5 3 8l9 4.5 9-4.5-9-4.5Z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 16l9 4.5 9-4.5"/>`,
+    arrowLeft: `<path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/>`,
+    arrowRight: `<path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>`,
+    cpu: `<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/>`
+  };
+  function ICON(name){
+    const body = ICONS[name] || ICONS.target;
+    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">${body}</svg>`;
+  }
+  document.querySelectorAll('[data-icon]').forEach(el=>{
+    el.innerHTML = ICON(el.dataset.icon);
+  });
+
+  // ---------- بيانات منهجية العمل ----------
+  const steps = [
+    {
+      n:"01", title:"التخطيط التشغيلي", icon:"clipboard",
+      items:[
+        "تحليل الوضع الراهن وتحديد الفجوات",
+        "تحديد الأهداف التشغيلية",
+        "تحليل أصحاب المصلحة والاحتياجات",
+        "تحديد المبادرات والمشاريع ذات الأولوية",
+        "إعداد الخطة التشغيلية وجدول زمني ومؤشرات أداء"
+      ]
+    },
+    {
+      n:"02", title:"تطبيق الخطة", icon:"users",
+      items:[
+        "تحديد الأدوار والمسؤوليات",
+        "توزيع الموارد والإمكانيات",
+        "إعداد خطط تفصيلية لكل مبادرة/مشروع",
+        "إدارة المخاطر والتغييرات",
+        "إطلاق المبادرات والمشاريع"
+      ]
+    },
+    {
+      n:"03", title:"التنفيذ والمتابعة", icon:"gear",
+      items:[
+        "تنفيذ المبادرات والمشاريع",
+        "متابعة سير العمل والإنجاز",
+        "إدارة الجودة وضمان التنفيذ",
+        "حل المعوقات واتخاذ الإجراءات التصحيحية",
+        "التواصل والتقارير الدورية"
+      ]
+    },
+    {
+      n:"04", title:"القياس والتقييم", icon:"chart",
+      items:[
+        "قياس الأداء وفق المؤشرات",
+        "تحليل النتائج وإثبات المحقق",
+        "مقارنة الأداء بالمستهدفات",
+        "تقييم المبادرات والمشاريع",
+        "تقارير أداء وأدوات ولوحات المتابعة"
+      ]
+    },
+    {
+      n:"05", title:"التحسين المستمر", icon:"refresh",
+      items:[
+        "استخلاص الدروس المستفادة",
+        "تحديث الخطط والمبادرات",
+        "تحسين العمليات والمنهجيات",
+        "تعزيز الابتكار وبناء القدرات",
+        "إعادة القياس لتحقيق مستوى أعلى من الأثر"
+      ]
+    }
+  ];
+
+  const nav = document.getElementById('stepperNav');
+  const panels = document.getElementById('stepperPanels');
+
+  steps.forEach((s, i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'step-btn' + (i===0 ? ' active':'');
+    btn.dataset.i = i;
+    btn.innerHTML = `<span class="sn">${ICON(s.icon)}</span><span class="st">${s.title}</span>`;
+    btn.addEventListener('click', ()=>activateStep(i));
+    nav.appendChild(btn);
+
+    const panel = document.createElement('div');
+    panel.className = 'step-panel' + (i===0 ? ' active':'');
+    panel.dataset.i = i;
+    panel.innerHTML = `
+      <h4><span class="big-n">${s.n}</span> ${s.title}</h4>
+      <ul>${s.items.map(it=>`<li>${it}</li>`).join('')}</ul>
+    `;
+    panels.appendChild(panel);
+  });
+
+  function activateStep(i){
+    document.querySelectorAll('.step-btn').forEach(b=>b.classList.toggle('active', +b.dataset.i===i));
+    document.querySelectorAll('.step-panel').forEach(p=>p.classList.toggle('active', +p.dataset.i===i));
+  }
+
+  // ---------- تفاعل إبراز بطاقات الرسالة والرؤية عند الضغط ----------
+  document.querySelectorAll('.mv-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      const isExpanded = card.classList.contains('expanded');
+      document.querySelectorAll('.mv-card').forEach(c=>c.classList.remove('expanded'));
+      if(!isExpanded) card.classList.add('expanded');
+    });
+  });
+
+  // ---------- تفاعل تظليل الأهداف ----------
+  document.querySelectorAll('.goal-item').forEach(g=>{
+    g.addEventListener('click', ()=> g.classList.toggle('selected'));
+  });
+  const style = document.createElement('style');
+  style.textContent = `.goal-item.selected{background:var(--navy-950);border-color:var(--navy-950);}
+  .goal-item.selected p{color:#fff;}
+  .goal-item.selected .goal-num{background:var(--gold-500);color:var(--navy-950);}`;
+  document.head.appendChild(style);
+
+  // ---------- ظهور تدريجي عند التمرير ----------
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); } });
+  }, {threshold:.12});
+  revealEls.forEach(el=>io.observe(el));
+
+  // ---------- نقاط التنقل الجانبية ----------
+  const sectionsForNav = [
+    {id:'s-hero', label:'الرئيسية'},
+    {id:'s-mv', label:'الرسالة والرؤية'},
+    {id:'s-goals', label:'الأهداف'},
+    {id:'s-method', label:'منهجية العمل'},
+    {id:'s-team', label:'الفريق'},
+    {id:'s-success', label:'عناصر النجاح'},
+    {id:'s-tools', label:'الأدوات'},
+    {id:'s-value', label:'القيمة'},
+    {id:'s-programs', label:'البرامج'},
+    {id:'s-booking', label:'الحجز والتواصل'},
+  ];
+  const dotnav = document.getElementById('dotnav');
+  sectionsForNav.forEach(s=>{
+    const b = document.createElement('button');
+    b.title = s.label;
+    b.addEventListener('click', ()=> document.getElementById(s.id).scrollIntoView({behavior:'smooth'}));
+    b.dataset.target = s.id;
+    dotnav.appendChild(b);
+  });
+  const navIO = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        document.querySelectorAll('.dotnav button').forEach(b=>{
+          b.classList.toggle('active', b.dataset.target === e.target.id);
+        });
+      }
+    });
+  }, {threshold:.5});
+  sectionsForNav.forEach(s=> navIO.observe(document.getElementById(s.id)));
+
+  // ---------- بيانات البرامج المقدمة للجهة ----------
+  const programs = [
+    {
+      icon:"clipboard",
+      title:"برنامج التخطيط الاستراتيجي والتشغيلي",
+      desc:"يمكّن الجهة من صياغة استراتيجيتها وترجمتها إلى خطط تشغيلية واضحة ومبادرات ذات أولوية قابلة للتنفيذ والقياس.",
+      points:["تحليل الوضع الراهن وصياغة التوجهات الاستراتيجية","بناء خطط تشغيلية مرتبطة بالأهداف","تحديد مؤشرات أداء ومستهدفات واضحة"]
+    },
+    {
+      icon:"briefcase",
+      title:"برنامج تأسيس وتفعيل مكاتب إدارة المشاريع (PMO)",
+      desc:"يدعم الجهة في إنشاء أو تطوير مكتب إدارة المشاريع وتفعيل أدواره وفق منهجيات عالمية معتمدة مثل PMBOK.",
+      points:["تصميم هيكل ودليل عمل مكتب إدارة المشاريع","توحيد منهجيات وأدوات إدارة المشاريع","بناء آلية حوكمة ومتابعة للمشاريع"]
+    },
+    {
+      icon:"chart",
+      title:"برنامج قياس الأداء المؤسسي ولوحات المتابعة",
+      desc:"يهدف إلى تصميم منظومة مؤشرات أداء مرتبطة بالأهداف الاستراتيجية، مع لوحات متابعة تدعم اتخاذ القرار.",
+      points:["بناء بطاقة أداء متوازن للجهة","تصميم لوحات متابعة تفاعلية","آلية دورية لمراجعة وتحليل النتائج"]
+    },
+    {
+      icon:"shield",
+      title:"برنامج إدارة المخاطر المؤسسية",
+      desc:"يبني قدرة الجهة على تحديد وتقييم ومعالجة المخاطر الاستراتيجية والتشغيلية بشكل استباقي.",
+      points:["حصر وتصنيف المخاطر المؤسسية","بناء سجل مخاطر وخطط استجابة","تدريب فرق العمل على إدارة المخاطر"]
+    },
+    {
+      icon:"users",
+      title:"برنامج تنمية القدرات في التخطيط وإدارة المشاريع",
+      desc:"دورات وورش عمل متخصصة لرفع كفاءة الكوادر الداخلية في أدوات ومنهجيات التخطيط وإدارة المشاريع والأداء.",
+      points:["ورش تدريبية عملية وتطبيقية","تأهيل فرق عمل داخلية متخصصة","نقل معرفي وخبرات تراكمية للجهة"]
+    },
+    {
+      icon:"cpu",
+      title:"برنامج التحول الرقمي وتوظيف الذكاء الاصطناعي في التخطيط والأداء",
+      desc:"يدعم الجهة في استخدام أدوات الذكاء الاصطناعي والتقنيات الحديثة لتحسين تحليل البيانات واتخاذ القرار.",
+      points:["أتمتة إعداد التقارير ولوحات المتابعة","تحليل بيانات متقدم لدعم القرار","بناء حلول ذكية مخصصة لاحتياج الجهة"]
+    }
+  ];
+
+  const programsGrid = document.getElementById('programsGrid');
+  if(programsGrid){
+    programs.forEach((p, i)=>{
+      const card = document.createElement('div');
+      card.className = 'program-card';
+      card.innerHTML = `
+        <div class="program-top">
+          <div class="program-icon">${ICON(p.icon)}</div>
+          <div>
+            <div class="program-num">برنامج ${String(i+1).padStart(2,'0')}</div>
+            <h3>${p.title}</h3>
+          </div>
+        </div>
+        <p class="desc">${p.desc}</p>
+        <ul class="program-points">${p.points.map(pt=>`<li>${pt}</li>`).join('')}</ul>
+      `;
+      programsGrid.appendChild(card);
+    });
+  }
+
+  // ---------- التبديل بين الصفحة الرئيسية وصفحة البرامج ----------
+  const mainView = document.getElementById('mainView');
+  const programsView = document.getElementById('programsView');
+  const openProgramsBtn = document.getElementById('openProgramsBtn');
+  const backToMainBtn = document.getElementById('backToMainBtn');
+  const goToBookingBtn = document.getElementById('goToBookingBtn');
+
+  // أيقونة زر العودة (تُرسم يدوياً لأنها خارج نظام data-icon الأساسي وقت التحميل)
+  const backIconHost = backToMainBtn ? backToMainBtn.querySelector('[data-icon="arrowRight"]') : null;
+  if(backIconHost) backIconHost.innerHTML = ICON('arrowRight');
+
+  function showProgramsView(){
+    mainView.style.display = 'none';
+    programsView.style.display = 'block';
+    window.scrollTo({top:0, behavior:'instant' in window ? 'instant' : 'auto'});
+  }
+  function showMainView(scrollToId){
+    programsView.style.display = 'none';
+    mainView.style.display = 'block';
+    if(scrollToId){
+      const target = document.getElementById(scrollToId);
+      if(target) target.scrollIntoView({behavior:'smooth'});
+    } else {
+      window.scrollTo({top:0, behavior:'instant' in window ? 'instant' : 'auto'});
+    }
+  }
+
+  if(openProgramsBtn){
+    openProgramsBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      showProgramsView();
+    });
+  }
+  if(backToMainBtn){
+    backToMainBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      showMainView('s-programs');
+    });
+  }
+  if(goToBookingBtn){
+    goToBookingBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      showMainView('s-booking');
+    });
+  }
+
+  // ---------- نموذج الحجز والتواصل ----------
+  const bookingForm = document.getElementById('bookingForm');
+  if(bookingForm){
+    bookingForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const successMsg = document.getElementById('bookingSuccess');
+      if(successMsg){
+        successMsg.textContent = 'تم إرسال طلب الحجز بنجاح، سنتواصل معك قريباً لتأكيد الموعد.';
+        successMsg.classList.add('show');
+      }
+      bookingForm.reset();
+    });
+  }
+</script>
+
+</body>
+</html>
