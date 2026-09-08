@@ -622,7 +622,15 @@
     transition:all .25s ease;
   }
   .back-link:hover{background:rgba(255,255,255,.08); border-color:var(--gold-500);}
-  .back-link svg{width:16px;height:16px;}
+  .back-link span{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:15px;
+    height:15px;
+    flex-shrink:0;
+  }
+  .back-link span svg{width:100%;height:100%;display:block;}
   #programsView section{padding:56px 6vw 78px;}
   .programs-grid{
     display:grid;
